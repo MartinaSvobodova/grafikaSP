@@ -1,5 +1,7 @@
 mod app;
 mod egui_tools;
+mod pipeline;
+mod state;
 
 use winit::event_loop::{ControlFlow, EventLoop};
 
