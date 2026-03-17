@@ -1,5 +1,5 @@
 [package]
-name = "egui-rust-wgpu-hello"
+name = "grafika-sp"
 version = "1.0.0"
 edition = "2021"
 
