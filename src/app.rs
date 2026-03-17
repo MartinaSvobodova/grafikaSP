@@ -102,7 +102,13 @@ impl App {
 
         let window = self.window.as_ref().unwrap();
 
-        pipeline::draw_triangle_pass(&mut encoder, &surface_view, &state.render_pipeline);
+        pipeline::draw_scene_pass(
+            &mut encoder,
+            &surface_view,
+            &state.render_pipeline,
+            &state.scene,
+            &state.scene_render_data,
+        );
 
         {
             state.egui_renderer.begin_frame(window);

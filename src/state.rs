@@ -1,5 +1,8 @@
 use crate::egui_tools::EguiRenderer;
+use crate::objects::model_group::ModelGroup;
+use crate::objects::scene::Scene;
 use crate::pipeline;
+use crate::shapes;
 use egui_wgpu::wgpu;
 use winit::window::Window;
 
@@ -9,6 +12,8 @@ pub struct AppState {
     pub surface_config: wgpu::SurfaceConfiguration,
     pub surface: wgpu::Surface<'static>,
     pub render_pipeline: wgpu::RenderPipeline,
+    pub scene: Scene,
+    pub scene_render_data: pipeline::SceneRenderData,
     pub scale_factor: f32,
     pub egui_renderer: EguiRenderer,
 }
@@ -64,7 +69,11 @@ impl AppState {
 
         surface.configure(&device, &surface_config);
 
-        let render_pipeline = pipeline::create_triangle_pipeline(&device, surface_config.format);
+        let render_pipeline = pipeline::create_pipeline(&device, surface_config.format);
+        let pentagon = shapes::pentagon::model();
+        let default_group = ModelGroup::with_models("Default", vec![pentagon]);
+        let scene = Scene::with_groups(vec![default_group]);
+        let scene_render_data = pipeline::create_scene_render_data(&device, &scene);
         let egui_renderer = EguiRenderer::new(&device, surface_config.format, None, 1, window);
 
         Self {
@@ -73,6 +82,8 @@ impl AppState {
             surface,
             surface_config,
             render_pipeline,
+            scene,
+            scene_render_data,
             egui_renderer,
             scale_factor: 1.0,
         }
