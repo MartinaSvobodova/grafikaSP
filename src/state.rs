@@ -4,6 +4,7 @@ use crate::objects::scene::Scene;
 use crate::pipeline;
 use crate::shapes;
 use egui_wgpu::wgpu;
+use egui_wgpu::wgpu::ExperimentalFeatures;
 use winit::window::Window;
 
 pub struct AppState {
@@ -44,6 +45,7 @@ impl AppState {
                 required_limits: Default::default(),
                 memory_hints: Default::default(),
                 trace: Default::default(),
+                experimental_features: ExperimentalFeatures::disabled(),
             })
             .await
             .expect("Failed to create device");
